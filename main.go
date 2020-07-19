@@ -3,10 +3,10 @@ package main
 import (
 	"os"
 
-	"github.com/sychonet/gitrelease/cmd"
+	cmd "github.com/sychonet/gitrelease/command"
 )
 
 func main() {
 	args := os.Args[1:]
-	cmd.Command(args)
+	cmd.Execute(args)
 }
