@@ -1,8 +1,8 @@
-# SynRelease
-Automate process to generate release note for Synduit projects.
+# GitRelease
+Automate process to generate release note for git projects.
 
 ## Overview
-In Synduit projects while writing release notes for a new tag following steps are used:
+In git projects generally while writing release notes for a new tag following steps are used:
 
 * Title for the release is `Releasing <tag>`
 * Description consists of a list of pull/merge requests merged between previous release and current tag.
