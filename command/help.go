@@ -1,11 +1,11 @@
-package cmd
+package command
 
 import (
 	"fmt"
 )
 
 // help0 displays options available at level 0
-func help() {
+func help0() {
 	fmt.Printf("GitRelease is a tool to automate the process of generating release note on version control systems.\n\n")
 	fmt.Printf("Usage:\n\n")
 	fmt.Printf("\tgitrelease <command> [arguments]\n\n")
