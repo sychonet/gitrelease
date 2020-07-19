@@ -1,3 +1,3 @@
-module github.com/sychonet/synrelease
+module github.com/sychonet/gitrelease
 
 go 1.14
