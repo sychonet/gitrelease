@@ -7,7 +7,9 @@ In git projects generally while writing release notes for a new tag following st
 * Title for the release is `Releasing <tag>`
 * Description consists of a list of pull/merge requests merged between previous release and current tag.
 
-The primary objective of this project is to automate the manual work required in above steps.
+The primary objective of this project is to automate the manual work required in above steps. Currently, this project supports following version control systems :
+* [Github](https://github.com)
+* [Gitlab](https://gitlab.com)  
 
 ### Github Setup
 Steps to generate personal access token on Github :
