@@ -79,8 +79,8 @@ func CreateRelease(args []string, c m.Config) error {
 	}
 
 	// cc: commits comparison
-	cc, res, err := client.Repositories.CompareCommits(context.Background(), o, rn, lrt, lt)
-	fmt.Println(res)
+	cc, _, err := client.Repositories.CompareCommits(context.Background(), o, rn, lrt, lt)
+
 	if err != nil {
 		panic("Unable to fetch comparison between tags for repository")
 	}
@@ -117,6 +117,87 @@ func CreateRelease(args []string, c m.Config) error {
 	} else {
 		fmt.Println("Draft release note successfully created for tag " + lt + " in repository " + o + "/" + rn)
 	}
+
+	return nil
+}
+
+// GetChangeLog displays change log for github repository
+func GetChangeLog(args []string, c m.Config) error {
+	// rn: repository name
+	// lt: latest tag
+	// o: owner
+	// emsg: error message
+	var rn, lt, o, emsg, lrt string
+	// err: error
+	var err error
+
+	// client: github client
+	client := newClient(c)
+
+	// Fetch repository name
+	emsg = "Repository name missing in arguments"
+	rn, err = u.GetOptionValue(args, emsg, "-r", "--repo")
+	if err != nil {
+		return err
+	}
+
+	// Fetch latest release tag
+	emsg = "Latest release tag missing in arguments"
+	lt, err = u.GetOptionValue(args, emsg, "-l", "--latest")
+	if err != nil {
+		return err
+	}
+
+	// Fetch owner name
+	emsg = "Repository owner missing in arguments"
+	o, err = u.GetOptionValue(args, emsg, "-o", "--owner")
+	if err != nil {
+		return err
+	}
+
+	// Fetch previous tag
+	emsg = "Repository owner missing in arguments"
+	p, err := u.GetOptionValue(args, emsg, "-p", "--previous")
+	if err == nil {
+		lrt = p
+	} else {
+		// rel : repository release
+		rel, _, err := client.Repositories.GetLatestRelease(context.Background(), o, rn)
+		if err != nil {
+			panic("Unable to fetch latest release for repository")
+		}
+
+		// lrt: latest release tag
+		lrt = rel.GetTagName()
+
+		fmt.Println("Tag of latest release for project is " + lrt)
+	}
+
+	// cc: commits comparison
+	cc, _, err := client.Repositories.CompareCommits(context.Background(), o, rn, lrt, lt)
+
+	if err != nil {
+		panic("Unable to fetch comparison between tags for repository")
+	}
+
+	// rp: regex pattern for fetching merge request number
+	rp := regexp.MustCompile(`#[0-9]*`)
+
+	// rln: release note
+	rln := ""
+
+	for i := 0; i < len(cc.Commits); i++ {
+		if strings.Contains(cc.Commits[i].Commit.GetMessage(), "Merge pull request") {
+			// prn: pull request number
+			prn := rp.FindString(cc.Commits[i].Commit.GetMessage())
+			// prt: pull request title
+			prt := strings.Split(cc.Commits[i].Commit.GetMessage(), "\n")[2]
+			rln += prn + " " + prt + "\n"
+		}
+	}
+
+	fmt.Println("Change log for repository:")
+	fmt.Println(rln)
 
 	return nil
 }

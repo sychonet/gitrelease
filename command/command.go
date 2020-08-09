@@ -22,6 +22,9 @@ func Execute(args []string, c m.Config) {
 		case "create":
 			create(args[1:], c)
 			break
+		case "view":
+			view(args[1:], c)
+			break
 		case "help":
 			help()
 			break
@@ -38,6 +41,7 @@ func Execute(args []string, c m.Config) {
 	}
 }
 
+// create creates a new draft release note on vcs
 func create(args []string, c m.Config) {
 	p := u.SliceIndex(len(args), func(i int) bool { return args[i] == "-vc" })
 	if p < 0 {
@@ -57,6 +61,35 @@ func create(args []string, c m.Config) {
 			if err != nil {
 				fmt.Println(err.Error())
 				panic("Unable to create release note in gitlab repository")
+			}
+			break
+		case "default":
+			fmt.Println("Invalid argument value")
+			createHelp()
+		}
+	}
+}
+
+// view displays change log
+func view(args []string, c m.Config) {
+	p := u.SliceIndex(len(args), func(i int) bool { return args[i] == "-vc" })
+	if p < 0 {
+		p = u.SliceIndex(len(args), func(i int) bool { return args[i] == "--vcs" })
+	}
+	if p >= 0 {
+		switch args[p+1] {
+		case "github":
+			err := gh.GetChangeLog(args, c)
+			if err != nil {
+				fmt.Println(err.Error())
+				panic("Unable to get change log of github repository")
+			}
+			break
+		case "gitlab":
+			err := gl.GetChangeLog(args, c)
+			if err != nil {
+				fmt.Println(err.Error())
+				panic("Unable to get change log of gitlab repository")
 			}
 			break
 		case "default":

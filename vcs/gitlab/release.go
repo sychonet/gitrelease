@@ -18,3 +18,8 @@ func newClient(c m.Config) *gl.Client {
 func CreateRelease(args []string, c m.Config) error {
 	return nil
 }
+
+// GetChangeLog displays change log for gitlab repository
+func GetChangeLog(args []string, c m.Config) error {
+	return nil
+}
