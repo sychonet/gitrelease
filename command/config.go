@@ -24,6 +24,7 @@ CONFIG:
 	fmt.Printf("Regarding steps for generating personal access tokens refer https://github.com/sychonet/gitrelease/README.md\n\n")
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Printf("Enter personal access token for github.com : ")
+	// ght: github token
 	ght, gherr := reader.ReadString('\n')
 	if gherr != nil {
 		panic("Could not read token from stdin")
@@ -31,6 +32,7 @@ CONFIG:
 		ght = strings.TrimSpace(ght)
 	}
 	fmt.Printf("Enter personal access token for gitlab.com : ")
+	// glt: gitlab token
 	glt, glerr := reader.ReadString('\n')
 	if glerr != nil {
 		panic("Could not read token from stdin")
