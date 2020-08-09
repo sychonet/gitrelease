@@ -32,9 +32,12 @@ func CreateRelease(args []string, c m.Config) error {
 	// lt: latest tag
 	// o: owner
 	// emsg: error message
-	var rn, lt, o, emsg string
+	var rn, lt, o, emsg, lrt string
 	// err: error
 	var err error
+
+	// client: github client
+	client := newClient(c)
 
 	// Fetch repository name
 	emsg = "Repository name missing in arguments"
@@ -57,22 +60,27 @@ func CreateRelease(args []string, c m.Config) error {
 		return err
 	}
 
-	// client: github client
-	client := newClient(c)
+	// Fetch previous tag
+	emsg = "Repository owner missing in arguments"
+	p, err := u.GetOptionValue(args, emsg, "-p", "--previous")
+	if err == nil {
+		lrt = p
+	} else {
+		// rel : repository release
+		rel, _, err := client.Repositories.GetLatestRelease(context.Background(), o, rn)
+		if err != nil {
+			panic("Unable to fetch latest release for repository")
+		}
 
-	// rel : repository release
-	rel, _, err := client.Repositories.GetLatestRelease(context.Background(), o, rn)
-	if err != nil {
-		panic("Unable to fetch latest release for repository")
+		// lrt: latest release tag
+		lrt = rel.GetTagName()
+
+		fmt.Println("Tag of latest release for project is " + lrt)
 	}
 
-	// lrt: latest release tag
-	lrt := rel.GetTagName()
-
-	fmt.Println("Tag of latest release for project is " + lrt)
-
 	// cc: commits comparison
-	cc, _, err := client.Repositories.CompareCommits(context.Background(), o, rn, lrt, lt)
+	cc, res, err := client.Repositories.CompareCommits(context.Background(), o, rn, lrt, lt)
+	fmt.Println(res)
 	if err != nil {
 		panic("Unable to fetch comparison between tags for repository")
 	}
@@ -89,7 +97,7 @@ func CreateRelease(args []string, c m.Config) error {
 			prn := rp.FindString(cc.Commits[i].Commit.GetMessage())
 			// prt: pull request title
 			prt := strings.Split(cc.Commits[i].Commit.GetMessage(), "\n")[2]
-			rln += "- " + prn + " " + prt + "<br/>"
+			rln += prn + " " + prt + "\n"
 		}
 	}
 
@@ -97,7 +105,7 @@ func CreateRelease(args []string, c m.Config) error {
 	fmt.Println(rln)
 
 	// rr: repository release
-	lrn := "Releasing " + lrt
+	lrn := "Releasing " + lt
 	// dr: draft
 	dr := true
 	rr := &gh.RepositoryRelease{TagName: &lrt, Name: &lrn, Draft: &dr, Body: &rln}

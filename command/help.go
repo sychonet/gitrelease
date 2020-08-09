@@ -21,10 +21,11 @@ func help() {
 func createHelp() {
 	fmt.Printf("Create command is used to generate release note.\n\n")
 	fmt.Printf("Usage:\n\n")
-	fmt.Printf("\tgitrelease create --vcs <vcs> --owner <owner> --repo <repository> --latest <latestRelease>\n\n")
+	fmt.Printf("\tgitrelease create --vcs <vcs> --owner <owner> --repo <repository> --latest <latestRelease> --previous <previousRelease>\n\n")
 	fmt.Printf("The arguments are:\n\n")
 	fmt.Printf("\t%-15s\t%-50s\n", "--owner|-o", "owner of repository")
 	fmt.Printf("\t%-15s\t%-50s\n", "--vcs|-vc", "version control system (github)")
 	fmt.Printf("\t%-15s\t%-50s\n", "--repo|-r", "name of repository")
 	fmt.Printf("\t%-15s\t%-50s\n", "--latest|-l", "latest release of project i.e. lastest tag number")
+	fmt.Printf("\t%-15s\t%-50s\n", "--previous|-p", "previous release of project i.e. previous release tag number (optional)")
 }
