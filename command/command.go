@@ -67,6 +67,8 @@ func create(args []string, c m.Config) {
 			fmt.Println("Invalid argument value")
 			createHelp()
 		}
+	} else {
+		createHelp()
 	}
 }
 
@@ -94,7 +96,9 @@ func view(args []string, c m.Config) {
 			break
 		case "default":
 			fmt.Println("Invalid argument value")
-			createHelp()
+			viewHelp()
 		}
+	} else {
+		viewHelp()
 	}
 }
