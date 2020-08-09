@@ -19,7 +19,7 @@ Steps to generate personal access token on Github :
 3. In note field type `Token for synrelease`.
 4. Select `repo` scope for the token.
 5. Click `Generate token` button at the bottom of form. 
-6. Copy the token shown on your screen on form submission and paste it in [configuration file](config.yaml) of this project. 
+6. Copy the token shown on your screen on form submission and use it while configuring this project. 
 
 **NOTE : You can revoke the token anytime you want.**
 
@@ -32,6 +32,6 @@ Steps to generate personal access token on Gitlab :
 4. Set expiry date for the token in `Expires at` section. If you don't want the token to expire forever then leave that field as blank.
 5. Select `read_repository` as scope for the token.
 6. Click `Create personal access token` button at the bottom of form.
-7. Copy the token shown on your screen on form submission and paste it in configuration file `config.yaml` of this project. 
+7. Copy the token shown on your screen on form submission and use it while configuring this project. 
 
 **NOTE : You can revoke the token anytime you want.**
