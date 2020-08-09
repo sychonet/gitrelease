@@ -196,7 +196,7 @@ func GetChangeLog(args []string, c m.Config) error {
 		}
 	}
 
-	fmt.Println("Change log for repository:")
+	fmt.Printf("Change log for repository:\n\n")
 	fmt.Println(rln)
 
 	return nil
