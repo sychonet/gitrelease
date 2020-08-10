@@ -38,3 +38,9 @@ Steps to generate personal access token on Gitlab :
 
 ### References
 * [https://github.com/github/hub/issues/2118](https://github.com/github/hub/issues/2118)
+
+### Contributions
+Please fork this repository and open a pull request with your changes.
+
+### License
+This is free software, licensed under the Apache-2.0 License.
