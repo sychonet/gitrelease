@@ -27,7 +27,8 @@ CONFIG:
 	// ght: github token
 	ght, gherr := reader.ReadString('\n')
 	if gherr != nil {
-		panic("Could not read token from stdin")
+		fmt.Println("Could not read token from stdin")
+		os.Exit(3)
 	} else {
 		ght = strings.TrimSpace(ght)
 	}
@@ -35,7 +36,8 @@ CONFIG:
 	// glt: gitlab token
 	glt, glerr := reader.ReadString('\n')
 	if glerr != nil {
-		panic("Could not read token from stdin")
+		fmt.Println("Could not read token from stdin")
+		os.Exit(3)
 	} else {
 		glt = strings.TrimSpace(glt)
 	}
@@ -49,11 +51,13 @@ CONFIG:
 
 		b, merr := yaml.Marshal(&c)
 		if merr != nil {
-			panic("Could not marshal configuration")
+			fmt.Println("Could not marshal configuration")
+			os.Exit(3)
 		}
 		werr := ioutil.WriteFile(cp, b, 0644)
 		if werr != nil {
-			panic("Unable to write confguration to file " + cp)
+			fmt.Println("Unable to write confguration to file " + cp)
+			os.Exit(3)
 		}
 		fmt.Printf("\n\nSaved configuration in file " + cp + "\n\n")
 	}
@@ -66,7 +70,8 @@ func GetConfig(cp string) m.Config {
 	// Open configuration file
 	f, ferr := os.Open(cp)
 	if ferr != nil {
-		panic("Unable to open configuration file")
+		fmt.Println("Unable to open configuration file")
+		os.Exit(3)
 	}
 	defer f.Close()
 
@@ -75,7 +80,8 @@ func GetConfig(cp string) m.Config {
 
 	// Start YAML decoding from configuration file
 	if err := d.Decode(&c); err != nil {
-		panic("Could not decode configuration")
+		fmt.Println("Could not decode configuration")
+		os.Exit(3)
 	}
 
 	return c
@@ -85,7 +91,8 @@ func GetConfig(cp string) m.Config {
 func GetConfigFileName() string {
 	hd, herr := os.UserHomeDir()
 	if herr != nil {
-		panic("Unable to generate path for configuration file")
+		fmt.Println("Unable to generate path for configuration file")
+		os.Exit(3)
 	}
 	cp := hd + "/" + configFile
 	return cp

@@ -3,6 +3,7 @@ package github
 import (
 	"context"
 	"fmt"
+	"os"
 	"regexp"
 	"strings"
 
@@ -69,7 +70,8 @@ func CreateRelease(args []string, c m.Config) error {
 		// rel : repository release
 		rel, _, err := client.Repositories.GetLatestRelease(context.Background(), o, rn)
 		if err != nil {
-			panic("Unable to fetch latest release for repository")
+			fmt.Println("Unable to fetch latest release for repository")
+			os.Exit(3)
 		}
 
 		// lrt: latest release tag
@@ -82,14 +84,20 @@ func CreateRelease(args []string, c m.Config) error {
 	cc, _, err := client.Repositories.CompareCommits(context.Background(), o, rn, lrt, lt)
 
 	if err != nil {
-		panic("Unable to fetch comparison between tags for repository")
+		fmt.Println("Unable to fetch comparison between tags for repository")
+		os.Exit(3)
+	}
+
+	if len(cc.Commits) == 0 {
+		fmt.Println("No change log available")
+		os.Exit(3)
 	}
 
 	// rp: regex pattern for fetching merge request number
 	rp := regexp.MustCompile(`#[0-9]*`)
 
 	// rln: release note
-	rln := ""
+	var rln string
 
 	for i := 0; i < len(cc.Commits); i++ {
 		if strings.Contains(cc.Commits[i].Commit.GetMessage(), "Merge pull request") {
@@ -101,19 +109,26 @@ func CreateRelease(args []string, c m.Config) error {
 		}
 	}
 
+	if len(rln) == 0 {
+		fmt.Println("No change log available")
+		os.Exit(3)
+	}
+
 	fmt.Println("Release note for lastest tag:")
 	fmt.Println(rln)
 
-	// rr: repository release
+	// lrn: latest release name
 	lrn := "Releasing " + lt
 	// dr: draft
 	dr := true
-	rr := &gh.RepositoryRelease{TagName: &lrt, Name: &lrn, Draft: &dr, Body: &rln}
 
+	// rr: repository release
+	rr := &gh.RepositoryRelease{TagName: &lt, Name: &lrn, Draft: &dr, Body: &rln}
 	rr, _, err = client.Repositories.CreateRelease(context.Background(), o, rn, rr)
 
 	if err != nil {
-		panic("Unable to create a new release note")
+		fmt.Println("Unable to create a new release note")
+		os.Exit(3)
 	} else {
 		fmt.Println("Draft release note successfully created for tag " + lt + " in repository " + o + "/" + rn)
 	}
@@ -164,7 +179,8 @@ func GetChangeLog(args []string, c m.Config) error {
 		// rel : repository release
 		rel, _, err := client.Repositories.GetLatestRelease(context.Background(), o, rn)
 		if err != nil {
-			panic("Unable to fetch latest release for repository")
+			fmt.Println("Unable to fetch latest release for repository")
+			os.Exit(3)
 		}
 
 		// lrt: latest release tag
@@ -177,14 +193,20 @@ func GetChangeLog(args []string, c m.Config) error {
 	cc, _, err := client.Repositories.CompareCommits(context.Background(), o, rn, lrt, lt)
 
 	if err != nil {
-		panic("Unable to fetch comparison between tags for repository")
+		fmt.Println("Unable to fetch comparison between tags for repository")
+		os.Exit(3)
+	}
+
+	if len(cc.Commits) == 0 {
+		fmt.Println("No change log available")
+		os.Exit(3)
 	}
 
 	// rp: regex pattern for fetching merge request number
 	rp := regexp.MustCompile(`#[0-9]*`)
 
 	// rln: release note
-	rln := ""
+	var rln string
 
 	for i := 0; i < len(cc.Commits); i++ {
 		if strings.Contains(cc.Commits[i].Commit.GetMessage(), "Merge pull request") {
@@ -194,6 +216,11 @@ func GetChangeLog(args []string, c m.Config) error {
 			prt := strings.Split(cc.Commits[i].Commit.GetMessage(), "\n")[2]
 			rln += prn + " " + prt + "\n"
 		}
+	}
+
+	if len(rln) == 0 {
+		fmt.Println("No change log available")
+		os.Exit(3)
 	}
 
 	fmt.Printf("Change log for repository:\n\n")

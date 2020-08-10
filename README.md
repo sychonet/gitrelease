@@ -30,7 +30,7 @@ Steps to generate personal access token on Gitlab :
 2. Visit [Personal Access Tokens](https://gitlab.com/profile/personal_access_tokens),
 3. In `Name` field type `Token for synrelease`.
 4. Set expiry date for the token in `Expires at` section. If you don't want the token to expire forever then leave that field as blank.
-5. Select `read_repository` as scope for the token.
+5. Select `api` as scope for the token.
 6. Click `Create personal access token` button at the bottom of form.
 7. Copy the token shown on your screen on form submission and use it while configuring this project. 
 

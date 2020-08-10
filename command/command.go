@@ -2,6 +2,7 @@ package command
 
 import (
 	"fmt"
+	"os"
 
 	m "github.com/sychonet/gitrelease/model"
 	u "github.com/sychonet/gitrelease/util"
@@ -53,14 +54,16 @@ func create(args []string, c m.Config) {
 			err := gh.CreateRelease(args, c)
 			if err != nil {
 				fmt.Println(err.Error())
-				panic("Unable to create release note in github repository")
+				fmt.Println("Unable to create release note in github repository")
+				os.Exit(3)
 			}
 			break
 		case "gitlab":
 			err := gl.CreateRelease(args, c)
 			if err != nil {
 				fmt.Println(err.Error())
-				panic("Unable to create release note in gitlab repository")
+				fmt.Println("Unable to create release note in gitlab repository")
+				os.Exit(3)
 			}
 			break
 		case "default":
@@ -84,14 +87,16 @@ func view(args []string, c m.Config) {
 			err := gh.GetChangeLog(args, c)
 			if err != nil {
 				fmt.Println(err.Error())
-				panic("Unable to get change log of github repository")
+				fmt.Println("Unable to get change log of github repository")
+				os.Exit(3)
 			}
 			break
 		case "gitlab":
 			err := gl.GetChangeLog(args, c)
 			if err != nil {
 				fmt.Println(err.Error())
-				panic("Unable to get change log of gitlab repository")
+				fmt.Println("Unable to get change log of gitlab repository")
+				os.Exit(3)
 			}
 			break
 		case "default":
