@@ -41,4 +41,4 @@ Steps to generate personal access token on Gitlab :
 
 ## Support or Contact
 
-Having trouble with the tool? Check out our [documentation](./README.md) or raise an issue and we’ll help you sort it out. We will love to hear feedbacks about the codebase and about new features that can be added to it. In case you want to contribute in this project then please fork this repository and open a pull request with your changes.
+Having trouble with the tool? Check out our [documentation](https://github.com/sychonet/gitrelease/blob/master/README.md) or raise an [issue](https://github.com/sychonet/gitrelease/issues) and we’ll help you sort it out. We will love to hear feedbacks about the codebase and about new features that can be added to it. For that as well please create an [issue](https://github.com/sychonet/gitrelease/issues). In case you want to contribute in this project then please fork this repository and open a pull request with your changes.
