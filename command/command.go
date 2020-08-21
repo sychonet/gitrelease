@@ -29,10 +29,7 @@ func Execute(args []string, c m.Config) {
 		case "help":
 			help()
 			break
-		case "--version":
-			version()
-			break
-		case "-v":
+		case "version":
 			version()
 			break
 		default:
@@ -44,7 +41,7 @@ func Execute(args []string, c m.Config) {
 
 // create creates a new draft release note on vcs
 func create(args []string, c m.Config) {
-	p := u.SliceIndex(len(args), func(i int) bool { return args[i] == "-vc" })
+	p := u.SliceIndex(len(args), func(i int) bool { return args[i] == "-v" })
 	if p < 0 {
 		p = u.SliceIndex(len(args), func(i int) bool { return args[i] == "--vcs" })
 	}
@@ -77,7 +74,7 @@ func create(args []string, c m.Config) {
 
 // view displays change log
 func view(args []string, c m.Config) {
-	p := u.SliceIndex(len(args), func(i int) bool { return args[i] == "-vc" })
+	p := u.SliceIndex(len(args), func(i int) bool { return args[i] == "-v" })
 	if p < 0 {
 		p = u.SliceIndex(len(args), func(i int) bool { return args[i] == "--vcs" })
 	}

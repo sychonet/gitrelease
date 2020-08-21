@@ -13,8 +13,8 @@ func help() {
 	fmt.Printf("\t%-15s\t%-50s\n", "configure", "configure the application")
 	fmt.Printf("\t%-15s\t%-50s\n", "create", "generate a new draft release note for project on vcs")
 	fmt.Printf("\t%-15s\t%-50s\n", "view", "list change log for project on vcs")
-	fmt.Printf("\t%-15s\t%-50s\n\n", "--version|-v", "display current version")
-	fmt.Printf("Type command help to check for valid arguments\n\n")
+	fmt.Printf("\t%-15s\t%-50s\n\n", "version", "display current version")
+	fmt.Printf("Type command help to check for valid arguments if available\n\n")
 	fmt.Printf("Source repository:\n\n\thttps://github.com/sychonet/gitrelease\n")
 }
 
@@ -25,7 +25,7 @@ func createHelp() {
 	fmt.Printf("\tgitrelease create --vcs <vcs> --owner <owner> --repo <repository> --latest <latestRelease> --previous <previousRelease> --custom\n\n")
 	fmt.Printf("The arguments are:\n\n")
 	fmt.Printf("\t%-15s\t%-50s\n", "--owner|-o", "owner of repository")
-	fmt.Printf("\t%-15s\t%-50s\n", "--vcs|-vc", "version control system (github)")
+	fmt.Printf("\t%-15s\t%-50s\n", "--vcs|-v", "version control system (github)")
 	fmt.Printf("\t%-15s\t%-50s\n", "--repo|-r", "name of repository")
 	fmt.Printf("\t%-15s\t%-50s\n", "--latest|-l", "latest release of project i.e. latest tag number")
 	fmt.Printf("\t%-15s\t%-50s\n", "--previous|-p", "previous release of project i.e. previous release tag number (optional)")
@@ -39,7 +39,7 @@ func viewHelp() {
 	fmt.Printf("\tgitrelease view --vcs <vcs> --owner <owner> --repo <repository> --latest <latestRelease> --previous <previousRelease>\n\n")
 	fmt.Printf("The arguments are:\n\n")
 	fmt.Printf("\t%-15s\t%-50s\n", "--owner|-o", "owner of repository")
-	fmt.Printf("\t%-15s\t%-50s\n", "--vcs|-vc", "version control system (github)")
+	fmt.Printf("\t%-15s\t%-50s\n", "--vcs|-v", "version control system (github)")
 	fmt.Printf("\t%-15s\t%-50s\n", "--repo|-r", "name of repository")
 	fmt.Printf("\t%-15s\t%-50s\n", "--latest|-l", "latest release of project i.e. latest tag number")
 	fmt.Printf("\t%-15s\t%-50s\n", "--previous|-p", "previous release of project i.e. previous release tag number (optional)")
