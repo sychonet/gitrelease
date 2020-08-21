@@ -1,6 +1,7 @@
 package github
 
 import (
+	"bufio"
 	"context"
 	"fmt"
 	"os"
@@ -121,6 +122,51 @@ func CreateRelease(args []string, c m.Config) error {
 	lrn := "Releasing " + lt
 	// dr: draft
 	dr := true
+
+	tmp := u.SliceIndex(len(args), func(i int) bool { return args[i] == "-c" })
+	if tmp < 0 {
+		tmp = u.SliceIndex(len(args), func(i int) bool { return args[i] == "--custom" })
+	}
+
+	if tmp >= 0 {
+		reader := bufio.NewReader(os.Stdin)
+
+		// Give option to edit release name using an editor
+		fmt.Printf("Want to customize release name (y/n)? ")
+		// opn: option to change name
+		opn, opnerr := reader.ReadString('\n')
+		if opnerr != nil {
+			fmt.Println("Could not read input from stdin")
+			os.Exit(3)
+		}
+		opn = strings.TrimSpace(opn)
+		if (opn == "y") || (opn == "Y") {
+			lrnBytes, err := u.CaptureInputFromEditor(lrn, u.GetPreferredEditorFromEnvironment)
+			if len(lrnBytes) == 0 || err != nil {
+				fmt.Println("Unable to edit release name. Using default release name instead.")
+			} else {
+				lrn = string(lrnBytes)
+			}
+		}
+
+		// Give option to edit release description using an editor
+		fmt.Printf("Want to customize release description (y/n)? ")
+		// opd: option to change description
+		opd, opderr := reader.ReadString('\n')
+		if opderr != nil {
+			fmt.Println("Could not read input from stdin")
+			os.Exit(3)
+		}
+		opd = strings.TrimSpace(opd)
+		if (opd == "y") || (opd == "Y") {
+			rlnBytes, err := u.CaptureInputFromEditor(rln, u.GetPreferredEditorFromEnvironment)
+			if len(rlnBytes) == 0 || err != nil {
+				fmt.Println("Unable to edit release description. Using default release description instead.")
+			} else {
+				rln = string(rlnBytes)
+			}
+		}
+	}
 
 	// rr: repository release
 	rr := &gh.RepositoryRelease{TagName: &lt, Name: &lrn, Draft: &dr, Body: &rln}

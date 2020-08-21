@@ -38,6 +38,7 @@ Steps to generate personal access token on Gitlab :
 
 ### References
 * [https://github.com/github/hub/issues/2118](https://github.com/github/hub/issues/2118)
+* [https://samrapdev.com/capturing-sensitive-input-with-editor-in-golang-from-the-cli/](https://samrapdev.com/capturing-sensitive-input-with-editor-in-golang-from-the-cli/)
 
 ### Contributions
 Please fork this repository and open a pull request with your changes.
