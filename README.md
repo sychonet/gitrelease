@@ -1,5 +1,5 @@
 # GitRelease
-Automate process to generate release note for git projects.
+CLI tool to automatically generate release note for git projects.
 
 ## Overview
 In git projects generally while writing release notes for a new tag following steps are used:
